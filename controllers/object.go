@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"api_mid_beego_request/models"
 	"encoding/json"
+
+	"github.com/Nico-Guz/api_mid_beego_request/models"
 
 	"github.com/astaxie/beego"
 )
@@ -89,4 +90,3 @@ func (o *ObjectController) Delete() {
 	o.Data["json"] = "delete success!"
 	o.ServeJSON()
 }
-
