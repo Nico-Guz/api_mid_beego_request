@@ -7,11 +7,13 @@ import (
 	"net/http"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
 // Envia una peticion al endpoint indicado y extrae la respuesta del campo Data para retomarla
 func GetRequestNew(endpoint string, route string, target interface{}) error {
 	url := beego.AppConfig.String("ProtocolAdmin") + "://" + beego.AppConfig.String(endpoint) + route
+	fmt.Println("URL", url)
 	var reponse map[string]interface{}
 	var err error
 	err = GetJson(url, &reponse)
@@ -59,4 +61,18 @@ func FillStruct(in interface{}, out interface{}) (err error) {
 	}
 	err = json.Unmarshal(str, &out)
 	return
+}
+
+func ErrorController(c beego.Controller, controller string) {
+	if err := recover(); err != nil {
+		logs.Error(err)
+		locarError := err.(map[string]interface{})
+		c.Data["message"] = (beego.AppConfig.String("appname") + "/" + controller + "/" + locarError["funcion"].(string))
+		c.Data["data"] = locarError["err"]
+		if status, ok := locarError["status"]; ok {
+			c.Abort(status.(string))
+		} else {
+			c.Abort("500")
+		}
+	}
 }

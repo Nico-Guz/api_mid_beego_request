@@ -1,0 +1,92 @@
+swagger: "2.0"
+info:
+  title: beego Test API
+  description: beego has a very cool tools to autogenerate documents for your API
+  version: 1.0.0
+  termsOfService: http://beego.me/
+  contact:
+    email: astaxie@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /v1
+paths:
+  /resoluciones_parametros/:
+    get:
+      tags:
+      - resoluciones_parametros
+      description: get Obtener resoluciones y parametros
+      operationId: ResolucionesParametrosController.Get All
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ResolucionesParametros'
+        "400":
+          description: bad request
+        "500":
+          description: Internal Server Error
+definitions:
+  models.DatosLocales:
+    title: DatosLocales
+    type: object
+    properties:
+      apellido:
+        type: string
+      id:
+        type: integer
+        format: int64
+      nombre:
+        type: string
+  models.Parametro:
+    title: Parametro
+    type: object
+    properties:
+      Activo:
+        type: boolean
+      CodigoAbreviacion:
+        type: string
+      Descripcion:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      Nombre:
+        type: string
+      NumeroOrden:
+        type: number
+        format: double
+      ParametroPadreId:
+        $ref: '#/definitions/models.Parametro'
+      TipoParametroId:
+        $ref: '#/definitions/models.TipoParametro'
+  models.ResolucionesParametros:
+    title: ResolucionesParametros
+    type: object
+    properties:
+      Parametros:
+        type: array
+        items:
+          $ref: '#/definitions/models.Parametro'
+      Resoluciones:
+        type: array
+        items:
+          $ref: '#/definitions/models.DatosLocales'
+  models.TipoParametro:
+    title: TipoParametro
+    type: object
+    properties:
+      Activo:
+        type: boolean
+      CodigoAbreviacion:
+        type: string
+      Descripcion:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      Nombre:
+        type: string
+      NumeroOrden:
+        type: number
+        format: double
